@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vos/models/habit_model.dart';
 import 'package:vos/models/habit_record_model.dart';
@@ -20,7 +21,9 @@ void main() async {
   await Hive.openBox<HabitModel>(HiveBox.badHabit.name);
   await Hive.openBox<HabitRecordModel>(HiveBox.habitRecord.name);
 
-  runApp(MyApp());
+  runApp(ProviderScope(
+    child: MyApp(),
+  ));
 }
 
 // Lock the Portrait Orientation.

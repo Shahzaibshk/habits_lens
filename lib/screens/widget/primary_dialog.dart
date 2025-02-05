@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:vos/utils/enum.dart';
 
 import '../../models/habit_model.dart';
@@ -14,7 +13,6 @@ class PrimmaryHabit extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    String todayKey = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final goodHabitBox = Hive.box<HabitModel>(HiveBox.goodHabit.name);
     final badHabitBox = Hive.box<HabitModel>(HiveBox.badHabit.name);
 
@@ -50,10 +48,9 @@ class PrimmaryHabit extends HookWidget {
         }
 
         if (isFromGoodHabit) {
-          await goodHabitBox.put(todayKey, habitModel);
-          print(goodHabitBox.keys.toList());
+          await goodHabitBox.add(habitModel);
         } else {
-          await badHabitBox.put(todayKey, habitModel);
+          await badHabitBox.add(habitModel);
         }
 
         Navigator.of(context).pop();
