@@ -1,4 +1,4 @@
-name: vos
+name: hoppy
 
 description: TechAviate Flutter Project
 
@@ -38,20 +38,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  flutter_launcher_icons: ^0.14.3
+  
   flutter_native_splash: ^2.4.4
   custom_lint: ^0.7.1
   riverpod_lint: ^2.6.4
   hive_ce_generator: ^1.8.2
   build_runner: ^2.4.14
 
-flutter_icons:
+  flutter_launcher_icons: "^0.14.3"
+
+flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/icon.png"
-  adaptive_icon_background: "assets/images/background.png"
-  adaptive_icon_foreground: "assets/images/foreground.png"
-  remove_alpha_ios: true
+  image_path: "assets/images/icon.jpeg"
 
 
 ### Uncomment this line to define a generate native splash screen

@@ -1,7 +1,18 @@
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:hoppy/models/habit_model.dart';
+import 'package:hoppy/utils/enum.dart';
+
+
+final goodHabit = Hive.box<HabitModel>(HiveBox.goodHabit.name);
+
 class Validators {
   static String? emptyValidator(String? text) {
     if (text!.isEmpty) {
       return 'Please Fill in the field';
+    }
+
+    if (goodHabit.name == text) {
+      return 'Habit name already exist';
     }
     return null;
   }
@@ -79,16 +90,30 @@ class Validators {
     return null;
   }
 
-  static String? lengthValidator(String? field, {int length = 4}) {
-    if (field!.isEmpty) {
-      return 'Please Fill in the field';
-    }
-
-    if (field.length < length) {
-      return 'Text must be at least $length characters';
-    }
-    return null;
+static String? pointsValidator(String? field, {required bool isGoodHabit}) {
+  if (field == null || field.trim().isEmpty) {
+    return 'Please fill in the field';
   }
+
+  final int? points = int.tryParse(field);
+  if (points == null) {
+    return 'Please enter a valid number';
+  }
+
+  if (isGoodHabit) {
+    // Validation for good habits: 1 to 100
+    if (points < 1 || points > 100) {
+      return 'Points must be between 1 and 100';
+    }
+  } else {
+    // Validation for bad habits: -1 to -100
+    if (points > -1 || points < -100) {
+      return 'Points must be between -1 and -100';
+    }
+  }
+
+  return null;
+}
 
   static String? dropDownValidator(String? text, String title) {
     if (text!.isEmpty) {

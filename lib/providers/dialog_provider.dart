@@ -26,7 +26,11 @@ class DialogProvider {
     final context = navigatorKey.currentContext;
     if (context == null) return Future.value();
 
-    return context.showMessageDialog(title, message: message, content: content);
+    return context.showMessageDialog(
+      title,
+      message: message,
+      content: content,
+    );
   }
 
   void showExceptionDialog() {
@@ -43,7 +47,10 @@ class DialogProvider {
   }
 
   bool get isSocketException =>
-      e is SocketException || e.toString().contains('SocketException');
+      e is SocketException ||
+      e.toString().contains(
+            'SocketException',
+          );
 
   Future showNoInternetDialog() {
     return showMessageDialog(

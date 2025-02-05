@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:vos/models/habit_model.dart';
-import 'package:vos/models/habit_record_model.dart';
-import 'package:vos/utils/enum.dart';
-import 'package:vos/widgets/primary_error_widet.dart';
 
+
+import '../models/habit_model.dart';
+import '../models/habit_record_model.dart';
 import '../utils/app_textstyle.dart';
+import '../utils/enum.dart';
+import '../widgets/primary_error_widet.dart';
 import '../widgets/primary_rich_text.dart';
 
 class BadHabits extends HookWidget {
@@ -86,10 +87,10 @@ class _BadHabbitTileState extends State<BadHabbitTile> {
           setState(() {});
         },
       ),
-      title: Text(widget.habit.name ?? ''),
+      title: Text(widget.habit.name),
       trailing: PrimaryRichText(
         text: ' Points',
-        linkedText: widget.habit.points.toString() ?? '',
+        linkedText: widget.habit.points.toString(),
         linktextstyle: AppTextstyle.redStyle,
       ),
     );

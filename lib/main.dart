@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hoppy/models/habit_record_model.dart';
+import 'package:hoppy/utils/enum.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:vos/models/habit_model.dart';
-import 'package:vos/models/habit_record_model.dart';
-import 'package:vos/utils/enum.dart';
 
+import 'models/habit_model.dart';
 import 'my_app.dart';
 
 void main() async {

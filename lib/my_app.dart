@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:vos/screens/tab_view.dart';
+import 'package:hoppy/screens/tab_view.dart';
+
 
 import 'app_theme.dart';
 import 'utils/utils.dart';

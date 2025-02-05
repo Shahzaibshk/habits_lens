@@ -7,17 +7,14 @@ class PrimaryCard extends ConsumerWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
-  const PrimaryCard({
-    super.key,
-    required this.child,
-    this.padding,
-    this.onTap,
-  });
+  final Color? color;
+  const PrimaryCard(
+      {super.key, required this.child, this.padding, this.onTap, this.color});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      color: Colors.white,
+      color: color ?? Colors.greenAccent.withValues(alpha: 0.09),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -29,7 +26,7 @@ class PrimaryCard extends ConsumerWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(kBorderRadius),
         child: Padding(
-          padding: padding ?? const EdgeInsets.all(16.0),
+          padding: padding ?? const EdgeInsets.all(8.0),
           child: child,
         ),
       ),

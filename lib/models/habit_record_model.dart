@@ -1,5 +1,6 @@
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:vos/models/habit_model.dart';
+import 'package:hoppy/models/habit_model.dart';
+
 
 part 'habit_record_model.g.dart';
 

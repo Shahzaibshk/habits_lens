@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:vos/utils/enum.dart';
+import 'package:hoppy/widgets/primary_button.dart';
 
 import '../../models/habit_model.dart';
+import '../../utils/enum.dart';
 import '../../utils/validators.dart';
 import '../../widgets/primary_text_field.dart';
 
@@ -28,74 +29,71 @@ class PrimmaryHabit extends HookWidget {
           name: name,
           points: points ?? 0,
         );
-
-        if (!isFromGoodHabit && points! >= 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Bad habits must be in negative points'),
-            ),
-          );
-          return;
-        }
-        if (isFromGoodHabit && points! < 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Good habit must be in poistive points'),
-            ),
-          );
-
-          return;
-        }
-
         if (isFromGoodHabit) {
           await goodHabitBox.add(habitModel);
         } else {
           await badHabitBox.add(habitModel);
         }
 
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       }
     }
 
     return AlertDialog(
-      title: Text("Let's make a new habit"),
-      actions: <Widget>[
-        Form(
-          key: formKey,
-          child: Column(
-            children: [
-              PrimaryTextField(
-                validator: Validators.emptyValidator,
-                controller: nameController,
-                hintText: 'Habit Name',
-              ),
-              PrimaryTextField(
-                keyboardType: TextInputType.number,
-                validator: Validators.emptyValidator,
-                controller: pointsController,
-                hintText: 'Enter your points',
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      await addHabit();
-                    },
-                    child: const Text('Add'),
-                  ),
-                ],
-              )
-            ],
-          ),
+      title: Text(
+        "Create a New Habit",
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      contentPadding: EdgeInsets.all(16.0),
+      content: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrimaryTextField(
+              validator: Validators.emptyValidator,
+              controller: nameController,
+              hintText: 'Habit Name',
+              textInputAction: TextInputAction.next,
+            ),
+            SizedBox(height: 12),
+            PrimaryTextField(
+              keyboardType: TextInputType.number,
+              validator: (value) => Validators.pointsValidator(value,
+                  isGoodHabit: isFromGoodHabit),
+              controller: pointsController,
+              hintText: 'Enter your points',
+              textInputAction: TextInputAction.done,
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                PrimaryButton(
+                  onTap: () => Navigator.pop(context),
+                  width: 100,
+                  text: 'Cancel',
+                  color: Colors.grey.shade400,
+                  textStyle: TextStyle(color: Colors.black),
+                ),
+                PrimaryButton(
+                  onTap: () async {
+                    await addHabit();
+                  },
+                  width: 100,
+                  text: 'Add',
+                  textStyle: TextStyle(color: Colors.white),
+                ),
+              ],
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 
