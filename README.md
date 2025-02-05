@@ -1,4 +1,4 @@
-# habits_lens
+# hoppy
 
 A new Flutter project.
 
