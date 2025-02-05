@@ -120,10 +120,7 @@ class HabitCalculationScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              // Habit Lists
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(

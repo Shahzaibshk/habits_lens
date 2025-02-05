@@ -67,9 +67,7 @@ class _BadHabbitTileState extends State<BadHabbitTile> {
         .contains(widget.habit.name);
     return ListTile(
       onTap: () {
-        // habitRecordBox.deleteFromDisk();
-        // Hive.box<HabitModel>(HiveBox.badHabit.name).deleteFromDisk();
-        // Hive.box<HabitModel>(HiveBox.goodHabit.name).deleteFromDisk();
+  
       },
       leading: Checkbox(
         value: isTicked,

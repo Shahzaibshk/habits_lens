@@ -32,9 +32,6 @@ class GoodHabits extends HookWidget {
           itemBuilder: (context, index) {
             final habit = goodHabitBox.getAt(index);
             if (habit == null) return const SizedBox.shrink();
-
-            // Determine initial state from Hive
-
             return HabitTile(
               habit: habit,
               ontap: () {
