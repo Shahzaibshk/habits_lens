@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:hoppy/widgets/KEmpty.dart';
 import 'package:intl/intl.dart';
 
 import '../models/habit_model.dart';
 import '../models/habit_record_model.dart';
 import '../utils/enum.dart';
-import '../widgets/primary_error_widet.dart';
 import '../widgets/primary_rich_text.dart';
 
 class GoodHabits extends HookWidget {
@@ -22,21 +22,19 @@ class GoodHabits extends HookWidget {
       valueListenable: goodHabitBox.listenable(),
       builder: (context, value, child) {
         if (value.isEmpty) {
-          return PrimaryErrorWidget(
-            error: 'No good habits found',
-          );
+          return KEmpty(emptyText: 'There is no good habbits found. please add some.');
         }
         log('Good habits found: ${goodHabitBox.values}');
         return ListView.builder(
           itemCount: goodHabitBox.keys.length,
           itemBuilder: (context, index) {
             final habit = goodHabitBox.getAt(index);
+            final key = goodHabitBox.keyAt(index);
             if (habit == null) return const SizedBox.shrink();
             return HabitTile(
               habit: habit,
-              ontap: () {
-                log('Habit tapped: ${habit.name}');
-              },
+              id: key,
+              ontap: () {},
             );
           },
         );
@@ -49,10 +47,12 @@ class HabitTile extends StatefulWidget {
   const HabitTile({
     super.key,
     required this.habit,
+    required this.id,
     required this.ontap,
   });
 
   final HabitModel habit;
+  final dynamic id;
   final VoidCallback ontap;
 
   @override
@@ -75,7 +75,36 @@ class _HabitTileState extends State<HabitTile> {
         .contains(widget.habit.name);
 
     return ListTile(
-      onTap: widget.ontap,
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Delete Habit'),
+            content: Text('Are you sure you want to delete this habit?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final goodHabitBox = Hive.box<HabitModel>(HiveBox.goodHabit.name);
+                  await goodHabitBox.delete(widget.id);
+                  final habitRecord = habitRecordBox.get(todayKey);
+                  if (habitRecord == null) return;
+                  habitRecord.goodHabits.remove(widget.habit);
+                  await habitRecordBox.put(todayKey, habitRecord);
+                  Navigator.pop(context);
+                  setState(() {});
+                },
+                child: Text('Delete'),
+              ),
+            ],
+          ),
+        );
+      },
       leading: Checkbox(
         value: isTicked,
         onChanged: (value) async {

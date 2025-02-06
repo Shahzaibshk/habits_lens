@@ -29,6 +29,16 @@ class PrimmaryHabit extends HookWidget {
           name: name,
           points: points ?? 0,
         );
+        if (goodHabitBox.values.any((element) => element.name == name) ||
+            badHabitBox.values.any((element) => element.name == name)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Habit already exists'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
         if (isFromGoodHabit) {
           await goodHabitBox.add(habitModel);
         } else {
@@ -64,8 +74,7 @@ class PrimmaryHabit extends HookWidget {
             SizedBox(height: 12),
             PrimaryTextField(
               keyboardType: TextInputType.number,
-              validator: (value) => Validators.pointsValidator(value,
-                  isGoodHabit: isFromGoodHabit),
+              validator: (value) => Validators.pointsValidator(value, isGoodHabit: isFromGoodHabit),
               controller: pointsController,
               hintText: 'Enter your points',
               textInputAction: TextInputAction.done,

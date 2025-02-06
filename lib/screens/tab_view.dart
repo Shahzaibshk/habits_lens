@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive_ce/hive.dart';
 
-import '../models/habit_record_model.dart';
-import '../utils/enum.dart';
 import 'bad_habits_screen.dart';
 import 'calender_screen.dart';
 import 'good_habits_screen.dart';
@@ -36,32 +33,40 @@ class _TabViewState extends State<TabView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _currentIndex == 0
-            ? AppBar(
-                title: Text(_appBarTitle),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      Hive.box<HabitRecordModel>(HiveBox.habitRecord.name)
-                          .deleteFromDisk();
-                    },
-                    icon: const Icon(
-                      Icons.delete_outline_outlined,
-                    ),
-                  ),
-                ],
-              )
-            : AppBar(
-                title: Text(_appBarTitle),
-              ),
+        appBar: AppBar(
+          title: Text(_appBarTitle),
+          actions: [
+            // IconButton(
+            //   onPressed: () {
+            //     Hive.box<HabitRecordModel>(HiveBox.habitRecord.name).deleteFromDisk();
+            //     Hive.box<HabitModel>(HiveBox.goodHabit.name).deleteFromDisk();
+            //     Hive.box<HabitModel>(HiveBox.badHabit.name).deleteFromDisk();
+            //   },
+            //   icon: const Icon(
+            //     Icons.delete_outline_outlined,
+            //   ),
+            // ),
+          ],
+        ),
+        // _currentIndex == 0
+        //     ? AppBar(
+        //         title: Text(_appBarTitle),
+        //         actions: [
+        //           IconButton(
+        //             onPressed: () {
+        //               Hive.box<HabitRecordModel>(HiveBox.habitRecord.name)
+        //                   .deleteFromDisk();
+        //             },
+        //             icon: const Icon(
+        //               Icons.delete_outline_outlined,
+        //             ),
+        //           ),
+        //         ],
+        //       )
+        //     :
         body: IndexedStack(
           index: _currentIndex,
-          children: [
-            HabitCalculationScreen(),
-            GoodHabits(),
-            BadHabits(),
-            CalendarScreen()
-          ],
+          children: [HabitCalculationScreen(), GoodHabits(), BadHabits(), CalendarScreen()],
         ),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
@@ -92,8 +97,7 @@ class _TabViewState extends State<TabView> {
             ? FloatingActionButton(
                 onPressed: () {
                   bool isGoodHabitScreen = _currentIndex == 1;
-                  PrimmaryHabit(isFromGoodHabit: isGoodHabitScreen)
-                      .show(context);
+                  PrimmaryHabit(isFromGoodHabit: isGoodHabitScreen).show(context);
                 },
                 child: const Icon(Icons.add),
               )
